@@ -337,11 +337,11 @@ get_name() { if [ "$HOSTNAME" = "s1.ct8.pl" ]; then SERVER="CT8"; else SERVER=$(
 NAME="$ISP-$(get_name)"
 yellow "注意：v2ray或其他软件的跳过证书验证需设置为true,否则hy2或tuic节点可能不通\n"
 cat > list.txt <<EOF
-vless://$UUID@$available_ip:$vless_port?encryption=none&flow=xtls-rprx-vision&security=reality&sni=www.cerebrium.ai&fp=chrome&pbk=$public_key&type=tcp&headerType=none#$USERNAME-reality
+vless://$UUID@$available_ip:$vless_port?encryption=none&flow=xtls-rprx-vision&security=reality&sni=www.cerebrium.ai&fp=chrome&pbk=$public_key&type=tcp&headerType=none#$USERNAME-$NAME-reality
 
-hysteria2://$UUID@$available_ip:$hy2_port/?sni=www.bing.com&alpn=h3&insecure=1#$USERNAME-hy2
+hysteria2://$UUID@$available_ip:$hy2_port/?sni=www.bing.com&alpn=h3&insecure=1#$USERNAME-$NAME-hy2
 
-tuic://$UUID:admin123@$available_ip:$tuic_port?sni=www.bing.com&congestion_control=bbr&udp_relay_mode=native&alpn=h3&allow_insecure=1#$USERNAME-tuic
+tuic://$UUID:admin123@$available_ip:$tuic_port?sni=www.bing.com&congestion_control=bbr&udp_relay_mode=native&alpn=h3&allow_insecure=1#$USERNAME-$NAME-tuic
 EOF
 cat list.txt
 purple "\n$WORKDIR/list.txt saved successfully"
