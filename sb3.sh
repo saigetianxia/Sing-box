@@ -277,29 +277,6 @@ cat > config.json << EOF
  "outbounds": [
 EOF
 
-# 如果是s14或s15,设置 WireGuard 出站
-if [[ "$HOSTNAME" =~ s14|s15 ]]; then
-  cat >> config.json << EOF
-    {
-      "type": "wireguard",
-      "tag": "wireguard-out",
-      "server": "162.159.192.200",
-      "server_port": 4500,
-      "local_address": [
-        "172.16.0.2/32",
-        "2606:4700:110:8f77:1ca9:f086:846c:5f9e/128"
-      ],
-      "private_key": "wIxszdR2nMdA7a2Ul3XQcniSfSZqdqjPb6w6opvf5AU=",
-      "peer_public_key": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo=",
-      "reserved": [
-        126,
-        246,
-        173
-      ]
-    },
-EOF
-fi
-
 # 添加默认的 direct 和 block 出站
 cat >> config.json << EOF
     {
@@ -315,25 +292,12 @@ cat >> config.json << EOF
     "rules": [
 EOF
 
-if [[ "$HOSTNAME" =~ s14|s15 ]]; then
-  cat >> config.json << EOF
-      {
-        "outbound": "wireguard-out",
-        "domain": ["geosite:all"]
-      },
-      {
-        "outbound": "direct",
-        "domain": ["geosite:cn"]
-      }
+cat >> config.json << EOF
+    {
+      "outbound": "direct",
+      "domain": ["geosite:all"]
+    }
 EOF
-else
-  cat >> config.json << EOF
-      {
-        "outbound": "direct",
-        "domain": ["geosite:all"]
-      }
-EOF
-fi
 
 cat >> config.json << EOF
     ]
@@ -409,11 +373,11 @@ get_name() { if [ "$HOSTNAME" = "s1.ct8.pl" ]; then SERVER="CT8"; else SERVER=$(
 NAME="$ISP-$(get_name)"
 yellow "注意：v2ray或其他软件的跳过证书验证需设置为true,否则hy2或tuic节点可能不通\n"
 cat > ${FILE_PATH}/list.txt <<EOF
-vless://$UUID@$available_ip:$VLESS_PORT?encryption=none&flow=xtls-rprx-vision&security=reality&sni=www.cerebrium.ai&fp=chrome&pbk=$public_key&type=tcp&headerType=none#$NAME-reality
+vless://$UUID@$available_ip:$VLESS_PORT?encryption=none&flow=xtls-rprx-vision&security=reality&sni=www.cerebrium.ai&fp=chrome&pbk=$public_key&type=tcp&headerType=none#$NAME-${USERNAME}-reality
 
-hysteria2://$UUID@$available_ip:$HY2_PORT/?sni=www.bing.com&alpn=h3&insecure=1#$NAME-hysteria2
+hysteria2://$UUID@$available_ip:$HY2_PORT/?sni=www.bing.com&alpn=h3&insecure=1#$NAME-${USERNAME}-hysteria2
 
-tuic://$UUID:admin@$available_ip:$TUIC_PORT?sni=www.bing.com&congestion_control=bbr&udp_relay_mode=native&alpn=h3&allow_insecure=1#$NAME-tuic
+tuic://$UUID:admin@$available_ip:$TUIC_PORT?sni=www.bing.com&congestion_control=bbr&udp_relay_mode=native&alpn=h3&allow_insecure=1#$NAME-${USERNAME}-tuic
 EOF
 cat ${FILE_PATH}/list.txt
 generate_sub_link
