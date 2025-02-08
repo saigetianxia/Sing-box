@@ -368,30 +368,6 @@ cat > config.json << EOF
  ],
  "outbounds": [
 EOF
-
-# 如果是s14或s15,设置 WireGuard 出站
-if [[ "$HOSTNAME" =~ s14|s15 ]]; then
-  cat >> config.json << EOF
-    {
-      "type": "wireguard",
-      "tag": "wireguard-out",
-      "server": "162.159.192.200",
-      "server_port": 4500,
-      "local_address": [
-        "172.16.0.2/32",
-        "2606:4700:110:8f77:1ca9:f086:846c:5f9e/128"
-      ],
-      "private_key": "wIxszdR2nMdA7a2Ul3XQcniSfSZqdqjPb6w6opvf5AU=",
-      "peer_public_key": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo=",
-      "reserved": [
-        126,
-        246,
-        173
-      ]
-    },
-EOF
-fi
-
 # 添加默认的 direct 和 block 出站
 cat >> config.json << EOF
     {
