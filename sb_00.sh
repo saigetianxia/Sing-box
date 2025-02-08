@@ -368,6 +368,7 @@ cat > config.json << EOF
  ],
  "outbounds": [
 EOF
+
 # 添加默认的 direct 和 block 出站
 cat >> config.json << EOF
     {
@@ -383,25 +384,12 @@ cat >> config.json << EOF
     "rules": [
 EOF
 
-if [[ "$HOSTNAME" =~ s14|s15 ]]; then
-  cat >> config.json << EOF
-      {
-        "outbound": "wireguard-out",
-        "domain": ["geosite:all"]
-      },
-      {
-        "outbound": "direct",
-        "domain": ["geosite:cn"]
-      }
+cat >> config.json << EOF
+    {
+      "outbound": "direct",
+      "domain": ["geosite:all"]
+    }
 EOF
-else
-  cat >> config.json << EOF
-      {
-        "outbound": "direct",
-        "domain": ["geosite:all"]
-      }
-EOF
-fi
 
 cat >> config.json << EOF
     ]
