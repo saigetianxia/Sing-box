@@ -187,6 +187,7 @@ uninstall_singbox() {
             devil www del keep.${USERNAME}.serv00.net nodejs 2>/dev/null || true
             rm -rf ${HOME}/domains/${USERNAME}.serv00.net/public_nodejs 2 >/dev/null || true
             rm -rf "${HOME}/bin/00" >/dev/null 2>&1
+	    rm -rf "${FILE_PATH}/list.txt" >/dev/null 2>&1
             [ -d "${HOME}/bin" ] && [ -z "$(ls -A "${HOME}/bin")" ] && rmdir "${HOME}/bin"
             sed -i '/export PATH="\$HOME\/bin:\$PATH"/d' "${HOME}/.bashrc" >/dev/null 2>&1
             source "${HOME}/.bashrc"
